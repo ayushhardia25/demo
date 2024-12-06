@@ -1,0 +1,40 @@
+﻿@model List<Employee>
+
+@{
+    ViewData["Title"] = "Data Exists";
+}
+
+<h2>Data Already Exists</h2>
+
+<p>The following employees already exist in the database:</p>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@employee.ID</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.Email</td>
+                    <td>@employee.Phone</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No existing employees found.</p>
+}
+
+<a asp-action="CSVUpload" class="btn btn-primary">Back to Upload</a>

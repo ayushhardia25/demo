@@ -1,0 +1,97 @@
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <td>
+            <input type="number" id="id">
+        </td>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <td>
+            <input type="text" id="txtName">
+        </td>
+    </tr>
+    <tr>
+        <th>Department</th>
+        <td>
+            <input type="text" id="txtDprt">
+        </td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>
+            <input type="email" id="email">
+        </td>
+    </tr>
+    <tr>
+        <th>Phone</th>
+        <td>
+            <input type="number" id="Phone">
+        </td>
+    </tr>
+    <tr>
+        <th></th>
+        <td>
+            <button onclick="addNewRow()">Add</button>
+        </td>
+    </tr>
+</table>
+
+<table id="tmpTable" class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+    var json = [];
+    var editItemIndex = -1;
+    function addNewRow() {
+        if (editItemIndex == -1) {
+            json.push({ id: $("#id").val(), name: $("#txtName").val(), department: $("#txtDprt").val(), phone: $("#phone").val(), email: $("#email").val() });
+
+        } else {
+            var itemToUpdate = json[editItemIndex];
+            itemToUpdate.id = $("#id").val();
+            itemToUpdate.name = $("#txtName").val();
+            itemToUpdate.department = $("#txtDprt").val();
+            itemToUpdate.phone = $("#email").val();
+            itemToUpdate.email = $("#phone").val();
+            editItemIndex = -1;
+        }
+        $("#txtName").val('');
+        addTableRow()
+    }
+
+    function addTableRow() {
+        var tableTempBody = $("#tmpTable tbody");
+        tableTempBody.find("tr").remove()
+        json.forEach(function (item, idx) {
+            tableTempBody.append('<tr><td>' + (idx + 1) + '</td><td>' + item.name + '</td><td><button onclick="deleteRow(this, ' + idx + ')">Delete</button><button onclick="editRow(' + idx + ')">Edit</button></td></tr>')
+        });
+    }
+    function deleteRow(deleteButton, itemIndex) {
+        json.splice(itemIndex, 1);
+        addTableRow();
+    }
+    function editRow(itemIndex) {
+        var jsonItem = json[itemIndex];
+        editItemIndex = itemIndex;
+        $("#id").val(jsonItem.id)
+        $("#txtName").val(jsonItem.name)
+        $("#txtDprt").val(jsonItem.department)
+        $("#phone").val(jsonItem.phone)
+        $("#email").val(jsonItem.email)
+    }
+</script>
+</body>
+</html>
